@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AR Object Detection</title>
+    
+    <!-- TensorFlow.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
+    
+    <!-- AR.js -->
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        font-family: Arial, sans-serif;
+      }
+      #ar-title {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        color: white;
+        font-size: 24px;
+        z-index: 9999;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        background: rgba(0,0,0,0.5);
+        padding: 10px;
+        border-radius: 5px;
+      }
+      #detection-results {
+        position: fixed;
+        top: 80px;
+        left: 20px;
+        color: white;
+        font-size: 16px;
+        z-index: 9999;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        background: rgba(0,0,0,0.7);
+        padding: 15px;
+        border-radius: 5px;
+        max-width: 300px;
+      }
+      #status {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: white;
+        font-size: 14px;
+        z-index: 9999;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        background: rgba(0,0,0,0.7);
+        padding: 10px 20px;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="ar-title">AR + Object Detection</div>
+    <div id="detection-results">Loading AI model...</div>
+    <div id="status">Initializing...</div>
+    
+    <a-scene embedded arjs>
+      <a-marker preset="hiro">
+        <a-box 
+          position="0 0.5 0" 
+          material="color: red;"
+        ></a-box>
+      </a-marker>
+      <a-entity camera></a-entity>
+    </a-scene>
+
+    <script>
+      let model;
+      let isDetecting = false;
+      
+      // Load COCO-SSD model
+      async function loadModel() {
+        document.getElementById('status').textContent = 'Loading AI model...';
+        try {
+          model = await cocoSsd.load();
+          document.getElementById('status').textContent = '✅ Ready! Show objects to camera';
+          document.getElementById('detection-results').innerHTML = '<strong>Detected Objects:</strong><br>Point camera at objects...';
+          startDetection();
+        } catch (error) {
+          document.getElementById('status').textContent = '❌ Error loading model';
+          console.error('Error loading model:', error);
+        }
+      }
+      
+      // Start object detection
+      function startDetection() {
+        isDetecting = true;
+        detectObjects();
+      }
+      
+      // Detect objects in video feed
+      async function detectObjects() {
+        if (!model || !isDetecting) return;
+        
+        try {
+          // Get video element from AR.js
+          const video = document.querySelector('video');
+          
+          if (video && video.readyState === 4) {
+            // Run detection
+            const predictions = await model.detect(video);
+            
+            // Display results
+            displayResults(predictions);
+          }
+        } catch (error) {
+          console.error('Detection error:', error);
+        }
+        
+        // Run detection every 500ms
+        setTimeout(detectObjects, 500);
+      }
+      
+      // Display detection results
+      function displayResults(predictions) {
+        const resultsDiv = document.getElementById('detection-results');
+        
+        if (predictions.length === 0) {
+          resultsDiv.innerHTML = '<strong>Detected Objects:</strong><br>No objects detected';
+          return;
+        }
+        
+        let html = '<strong>Detected Objects:</strong><br>';
+        predictions.forEach((prediction, index) => {
+          const confidence = Math.round(prediction.score * 100);
+          html += `${index + 1}. ${prediction.class} (${confidence}%)<br>`;
+        });
+        
+        resultsDiv.innerHTML = html;
+      }
+      
+      // Wait for scene to be ready, then load model
+      setTimeout(() => {
+        loadModel();
+      }, 2000);
+    </script>
+  </body>
+</html>
