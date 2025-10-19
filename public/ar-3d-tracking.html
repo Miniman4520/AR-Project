@@ -131,8 +131,8 @@
     statusDiv.textContent = 'Loading AI model...';
     try {
       model = await cocoSsd.load();
-      statusDiv.textContent = '✅ Ready! Show perfume box to camera';
-      detectionInfo.innerHTML = '<strong>Tracking: Perfume Box</strong><br>Waiting for object...';
+      statusDiv.textContent = '✅ Ready! Show perfume to camera';
+      detectionInfo.innerHTML = '<strong>Tracking: Perfume </strong><br>Waiting for object...';
       isDetecting = true;
       detectObjects();
     } catch (error) {
@@ -152,9 +152,27 @@
       // Run detection
       const predictions = await model.detect(video);
       
-      // Filter for small objects
-      const validClasses = ['cell phone', 'remote', 'mouse', 'keyboard', 'book', 'bottle', 'cup', 'clock', 'vase'];
-      
+      const validClasses = [
+        'cell phone',    // Small rectangular objects
+        'remote',        // Box-like remotes
+        'mouse',         // Small devices
+        'keyboard',      // Rectangular
+        'book',          // Box-shaped books
+        'bottle',        // Actual bottles (perfume bottles!)
+        'cup',           // Small containers
+        'clock',         // Box-shaped clocks
+        'vase',          // Decorative containers
+        'scissors',      // Small tools
+        'toothbrush',    // Small items
+        'hair drier',    // Small appliances
+        'teddy bear',    // Small soft objects
+        'handbag',       // Bags/boxes
+        'suitcase',      // Box-like containers
+        'backpack',      // Bag-like objects
+        'wine glass',    // Glass containers
+        'fire hydrant',  // Box-like structures
+        'toaster'        // Small appliances
+];      
       const smallObjects = predictions.filter(p => {
         if (!validClasses.includes(p.class)) return false;
         
@@ -179,17 +197,15 @@
         
         // Update info
         detectionInfo.innerHTML = `
-          <strong>✅ Tracking: Perfume Box</strong><br>
-          Confidence: ${confidence}%<br>
+          <strong>✅ Tracking: Perfume </strong><br>
           Position: (${Math.round(x)}, ${Math.round(y)})<br>
           Size: ${Math.round(width)}×${Math.round(height)}<br>
-          <small>Detected as: ${bestObject.class}</small>
         `;
       } else {
         detectionInfo.innerHTML = `
-          <strong>Tracking: Perfume Box</strong><br>
-          Not detected - show box to camera<br>
-          <small>Hold a small rectangular object</small>
+          <strong>Tracking: Perfume</strong><br>
+          Not detected - show to camera<br>
+          <small>Hold a perfume</small>
         `;
       }
       
