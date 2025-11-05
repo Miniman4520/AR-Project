@@ -1,80 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR Object Detection Project</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 40px;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .container {
-            max-width: 600px;
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
-        }
-        p {
-            color: #666;
-            margin-bottom: 30px;
-        }
-        .button {
-            display: block;
-            padding: 20px;
-            margin: 15px 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-decoration: none;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-        .button:active {
-            transform: translateY(0);
-        }
-        .description {
-            font-size: 14px;
-            color: #888;
-            margin-top: 5px;
-        }
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Developing Generative Texture on Commercial Packaging in Extended Reality</title>
+  <style>
+    body {
+        margin: 0;
+        padding: 40px;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        color: #333;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+    }
+    .container {
+        max-width: 700px;
+        background: #fff;
+        border-radius: 20px;
+        padding: 40px;
+        text-align: center;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    }
+    h1 {
+        color: #222;
+        font-size: 26px;
+        margin-bottom: 15px;
+    }
+    h2 {
+        color: #555;
+        font-size: 18px;
+        margin-bottom: 30px;
+        font-weight: normal;
+    }
+    .button {
+        display: inline-block;
+        width: 80%;
+        padding: 18px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        text-decoration: none;
+        border-radius: 12px;
+        font-size: 18px;
+        font-weight: bold;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+    .description {
+        display: block;
+        font-size: 15px;
+        color: #f3f3f3;
+        opacity: 0.9;
+        margin-top: 8px;
+        font-weight: normal;
+    }
+    footer {
+        margin-top: 35px;
+        font-size: 13px;
+        color: #666;
+    }
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <h1>🎯 AR Object Detection</h1>
-        <p>Choose an AR experience:</p>
-        
-        <a href="/ar.html" class="button">
-            📍 Marker-Based AR
-            <div class="description">Use Hiro marker to see 3D objects</div>
-        </a>
-        
-        <a href="/ar-3d-tracking.html" class="button">
-            📦 Object Tracking AR
-            <div class="description">Point at objects for real-time 3D overlay</div>
-        </a>
-        
-        <p style="margin-top: 30px; text-align: center; font-size: 12px;">
-            Built with AR.js, TensorFlow.js & Three.js
-        </p>
-    </div>
+  <div class="container">
+    <h1>🧠 Developing Generative Texture on Commercial Packaging</h1>
+    <h2>Exploring interactive design through Extended Reality</h2>
+
+    <a href="/ar.html" class="button">
+      🪄 Launch Marker-Based AR
+      <div class="description">Point your camera at the Hiro marker to visualize 3D packaging textures in AR</div>
+    </a>
+
+    <footer>
+      Built using A-Frame, AR.js, and WebXR • Research Project by <b>Muhammad Minhajuddin & Mahnoor</b>
+    </footer>
+  </div>
 </body>
 </html>
